@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightHub | Transform Data into Action</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primaryBlue: '#2563EB',
+                        primaryGreen: '#16A34A',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary-blue: #2563EB;
+            --primary-green: #16A34A;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Glassmorphism Navigation */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid #E5E7EB;
+            transition: all 0.3s ease;
+        }
+
+        .dark .glass-nav {
+            background: rgba(17, 24, 39, 0.8);
+            border-bottom: 1px solid #374151;
+        }
+
+        /* Abstract Shape Backgrounds */
+        .blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(22, 163, 74, 0.1) 100%);
+            filter: blur(80px);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .dark .blob {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(22, 163, 74, 0.15) 100%);
+        }
+
+        /* Cards */
+        .feature-card,
+        .team-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #E5E7EB;
+        }
+
+        .dark .feature-card,
+        .dark .team-card {
+            border-color: #374151;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+            border-color: #2563EB;
+        }
+
+        .dark .feature-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border-color: #2563EB;
+        }
+
+        .team-card:hover {
+            transform: scale(1.02);
+        }
+
+        /* iPhone Mockup */
+        .iphone-frame {
+            border: 8px solid #111827;
+            border-radius: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: border-color 0.3s ease;
+        }
+
+        .dark .iphone-frame {
+            border-color: #374151;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body class="antialiased bg-white text-gray-700 dark:bg-gray-900 dark:text-gray-300 transition-colors duration-300">
+
+    <nav class="fixed w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-[#2563EB] rounded-lg flex items-center justify-center">
+                    <i data-lucide="bar-chart-3" class="text-white w-6 h-6"></i>
+                </div>
+                <span class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">InsightHub</span>
+            </div>
+            
+            <div class="flex items-center space-x-8">
+                
+                <div class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                    <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-[#2563EB] dark:hover:text-[#2563EB] transition-colors">About</a>
+                    <a href="#features" class="text-gray-700 dark:text-gray-300 hover:text-[#2563EB] dark:hover:text-[#2563EB] transition-colors">Features</a>
+                    <a href="#showcase" class="text-gray-700 dark:text-gray-300 hover:text-[#2563EB] dark:hover:text-[#2563EB] transition-colors">App</a>
+                    <a href="#team" class="text-gray-700 dark:text-gray-300 hover:text-[#2563EB] dark:hover:text-[#2563EB] transition-colors">Team</a>
+                </div>
+                
+                <div class="flex items-center space-x-2">
+                    <a href="https://github.com/InsightHub-ASU-CS-Graduation-Project" target="_blank"
+                        class="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-5 py-2.5 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-200 transition flex items-center justify-center">
+                        <img src="GitHub_Invertocat_White.svg" alt="GitHub" class="w-5 h-5 mr-2 dark:hidden">
+                        <img src="GitHub_Invertocat_Black.svg" alt="GitHub" class="w-5 h-5 mr-2 hidden dark:block">
+                        Git Repository
+                    </a>
+
+                    <button id="theme-toggle" type="button"
+                        class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-gray-200 dark:focus-visible:ring-gray-700 rounded-full text-sm p-2 transition-colors">
+                        <i data-lucide="moon" id="theme-toggle-dark-icon" class="hidden w-5 h-5"></i>
+                        <i data-lucide="sun" id="theme-toggle-light-icon" class="hidden w-5 h-5"></i>
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+    </nav>
+
+    <section id="about"
+        class="relative pt-32 pb-20 overflow-hidden bg-blue-50 dark:bg-gray-900 transition-colors duration-300">
+        <div class="blob top-[-100px] left-[-100px]"></div>
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="z-10">
+                <span
+                    class="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-wider text-[#2563EB] dark:text-blue-400 uppercase bg-blue-100 dark:bg-blue-900/30 rounded-full">
+                    The Bridge to Clarity
+                </span>
+                <h1 class="text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-[1.1] mb-6">
+                    Turning Complex Data into <span class="text-[#16A34A] dark:text-[#4ADE80]">Actionable
+                        Insights.</span>
+                </h1>
+                <p class="text-xl text-gray-600 dark:text-gray-400 leading-relaxed mb-8">
+                    Massive amounts of valuable data—job trends, professional assessments, and news—are often buried in
+                    complex databases. InsightHub acts as the ultimate bridge, transforming scattered information into
+                    clear, accessible roadmaps for your professional journey.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#features"
+                        class="px-8 py-4 bg-[#2563EB] text-white font-bold rounded-xl shadow-lg shadow-blue-200 dark:shadow-none hover:bg-blue-700 transition">Explore
+                        Features</a>
+                    <a href="#demo"
+                        class="px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 font-bold rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition flex items-center">
+                        <i data-lucide="play-circle" class="mr-2 w-5 h-5"></i> Watch Demo
+                    </a>
+                </div>
+            </div>
+            <div class="relative">
+                <img src="input data.svg" alt="Data Illustration" class="w-full max-w-lg mx-auto dark:opacity-90">
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Precision Tools for Professionals</h2>
+                <p class="text-gray-500 dark:text-gray-400">Everything you need to navigate the modern tech landscape,
+                    powered by real-time community data and advanced analytics.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-6 gap-8">
+                <div class="feature-card p-8 rounded-2xl bg-gray-50 dark:bg-gray-800 col-span-2">
+                    <div
+                        class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mb-6 text-[#2563EB] dark:text-blue-400">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Job Market Insights</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Real-time analytics about current roles, salary
+                        benchmarks, and demand shifts in the global tech economy.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl bg-green-50 dark:bg-gray-800 col-span-2">
+                    <div
+                        class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-6 text-[#16A34A] dark:text-green-400">
+                        <i data-lucide="user-check"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Career Assessment</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Smart tools to find your career match, backed by
+                        thousands of volunteer entries from actual professionals.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl bg-gray-100 dark:bg-gray-800 col-span-2">
+                    <div
+                        class="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-xl flex items-center justify-center mb-6 text-gray-900 dark:text-white">
+                        <i data-lucide="newspaper"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Curated Tech News</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Tailored feeds for Cybersecurity, Backend, and AI
+                        fields. Stay updated without the noise.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl bg-gray-50 dark:bg-gray-800 lg:col-start-2 col-span-2">
+                    <div
+                        class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mb-6 text-[#2563EB] dark:text-blue-400">
+                        <i data-lucide="layout"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Job Board</h3>
+                    <p class="text-gray-600 dark:text-gray-400">A dedicated section for high-quality tech listings
+                        specifically vetted for our community members.</p>
+                </div>
+                <div class="feature-card p-8 rounded-2xl bg-green-50 dark:bg-gray-800 col-span-2">
+                    <div
+                        class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-6 text-[#16A34A] dark:text-green-400">
+                        <i data-lucide="graduation-cap"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Interview Prep Hub</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Interactive quizzes and targeted technical questions
+                        designed to prepare fresh graduates for the hot seat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="showcase"
+        class="py-24 bg-[#F3F4F6] dark:bg-gray-800/30 overflow-hidden transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2 relative">
+                    <div
+                        class="absolute top-0 left-0 w-64 h-64 bg-[#2563EB] opacity-10 rounded-full blur-3xl -z-10 dark:opacity-20">
+                    </div>
+                    <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-6">Designed for the <br><span
+                            class="text-[#2563EB] dark:text-blue-400">Next Generation</span></h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">
+                        Experience a seamless interface that puts data in your pocket. Our mobile application allows you
+                        to track market shifts and practice for interviews while on the go.
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center text-gray-900 dark:text-white font-semibold">
+                            <div class="w-6 h-6 bg-[#16A34A] rounded-full flex items-center justify-center mr-3">
+                                <i data-lucide="check" class="text-white w-4 h-4"></i>
+                            </div>
+                            Dark Mode Supported
+                        </li>
+                        <li class="flex items-center text-gray-900 dark:text-white font-semibold">
+                            <div class="w-6 h-6 bg-[#16A34A] rounded-full flex items-center justify-center mr-3">
+                                <i data-lucide="check" class="text-white w-4 h-4"></i>
+                            </div>
+                            Real-time Push Notifications
+                        </li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2 flex justify-center">
+                    <div class="iphone-frame w-[300px] h-[600px] bg-white dark:bg-gray-900 relative overflow-hidden">
+                        <div
+                            class="absolute top-0 left-0 w-full h-full bg-blue-50 dark:bg-gray-800 p-4 transition-colors">
+                            <div class="w-full h-6 bg-gray-200 dark:bg-gray-700 rounded-full mb-6 mt-4"></div>
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div class="h-24 bg-white dark:bg-gray-700 rounded-xl shadow-sm"></div>
+                                <div class="h-24 bg-white dark:bg-gray-700 rounded-xl shadow-sm"></div>
+                            </div>
+                            <div class="h-40 bg-white dark:bg-gray-700 rounded-xl shadow-sm mb-4"></div>
+                            <div class="h-40 bg-white dark:bg-gray-700 rounded-xl shadow-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="py-24 bg-white dark:bg-gray-900 transition-colors duration-300">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">See it in Action</h2>
+                <div class="w-20 h-1.5 bg-[#16A34A] mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div
+                class="aspect-video bg-gray-900 rounded-3xl overflow-hidden shadow-2xl relative border-8 border-white dark:border-gray-800 transition-colors duration-300">
+                <div class="absolute inset-0 flex items-center justify-center bg-black/40 group cursor-pointer">
+                    <div
+                        class="w-20 h-20 bg-[#2563EB] rounded-full flex items-center justify-center text-white transition transform group-hover:scale-110">
+                        <i data-lucide="play" fill="currentColor" class="w-8 h-8"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="py-24 bg-green-50 dark:bg-gray-900/50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Meet the Team</h2>
+                <p class="text-gray-500 dark:text-gray-400">The experts behind the InsightHub synthesis engine.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="team-card bg-white dark:bg-gray-800 p-6 rounded-2xl text-center flex flex-col h-full">
+                    <div
+                        class="w-20 h-20 bg-blue-100 dark:bg-blue-900/30 rounded-full mx-auto mb-4 flex items-center justify-center text-[#2563EB] dark:text-blue-400">
+                        <i data-lucide="user" class="w-10 h-10"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 dark:text-white mb-2">Abdallah Abukhalil</h4>
+
+                    <div class="h-12 mb-3 flex flex-col items-center justify-start">
+                        <p class="text-sm text-[#2563EB] dark:text-blue-400 font-bold uppercase">Data Analytics</p>
+                        <p class="text-xs text-[#2563EB] dark:text-blue-400 font-bold uppercase mt-1">(Leader)</p>
+                    </div>
+
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Responsible for architectural design and data synthesis protocols for the InsightHub platform.
+                    </p>
+                </div>
+
+                <div class="team-card bg-white dark:bg-gray-800 p-6 rounded-2xl text-center flex flex-col h-full">
+                    <div
+                        class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full mx-auto mb-4 flex items-center justify-center text-[#16A34A] dark:text-green-400">
+                        <i data-lucide="smartphone" class="w-10 h-10"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 dark:text-white mb-2">Belal Hesham</h4>
+
+                    <div class="h-12 mb-3 flex flex-col items-center justify-start">
+                        <p class="text-sm text-[#16A34A] dark:text-green-400 font-bold uppercase">Flutter Dev.</p>
+                    </div>
+
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Driving mobile innovation through high-performance cross-platform development and UI
+                        implementation.
+                    </p>
+                </div>
+
+                <div class="team-card bg-white dark:bg-gray-800 p-6 rounded-2xl text-center flex flex-col h-full">
+                    <div
+                        class="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-700 dark:text-gray-300">
+                        <i data-lucide="database" class="w-10 h-10"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 dark:text-white mb-2">Nour Mohamed</h4>
+
+                    <div class="h-12 mb-3 flex flex-col items-center justify-start">
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-bold uppercase">Back End ASP.NET</p>
+                    </div>
+
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Building the robust API foundations and ensuring data integrity across the system backend.
+                    </p>
+                </div>
+
+                <div class="team-card bg-white dark:bg-gray-800 p-6 rounded-2xl text-center flex flex-col h-full">
+                    <div
+                        class="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full mx-auto mb-4 flex items-center justify-center text-gray-700 dark:text-gray-300">
+                        <i data-lucide="server" class="w-10 h-10"></i>
+                    </div>
+                    <h4 class="font-bold text-gray-900 dark:text-white mb-2">Mohamed Khaled</h4>
+
+                    <div class="h-12 mb-3 flex flex-col items-center justify-start">
+                        <p class="text-sm text-gray-700 dark:text-gray-300 font-bold uppercase">Back End ASP.NET</p>
+                    </div>
+
+                    <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                        Specializing in server-side logic and database optimization to handle InsightHub's heavy data
+                        traffic.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-16 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-8">Ready to navigate your future?</h2>
+            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+                <a href="#"
+                    class="px-10 py-4 bg-[#2563EB] rounded-full font-bold hover:bg-blue-600 transition flex items-center justify-center">
+                    <i data-lucide="file-text" class="mr-2 w-5 h-5"></i> Documentation
+                </a>
+                <a href="https://github.com/InsightHub-ASU-CS-Graduation-Project" target="_blank"
+                    class="px-10 py-4 bg-transparent border-2 border-white/20 rounded-full font-bold hover:bg-white/10 transition flex items-center justify-center">
+                    <img src="GitHub_Invertocat_White.svg" alt="لGitHub Logo" class="mr-3 w-6 h-6"> Git Repository
+                </a>
+            </div>
+            <div
+                class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 text-sm">
+                <p>© 2026 InsightHub. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Dark Mode Toggle Logic
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+
+        // Check user preference on load
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            themeToggleLightIcon.classList.remove('hidden');
+            document.documentElement.classList.add('dark');
+        } else {
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        // Listen for toggle click
+        themeToggleBtn.addEventListener('click', function () {
+            // Toggle icons
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // Set preference in localStorage and toggle class
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
